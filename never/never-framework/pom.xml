@@ -9,44 +9,54 @@
 	</parent>
 
 	<groupId>com.minjihong</groupId>
-	<artifactId>never-eureka</artifactId>
+	<artifactId>never-framework</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>never-eureka</name>
-	<description>注册中心 eureka</description>
+	<name>never-framework</name>
+	<description>核心模块</description>
 
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
 
 	<dependencies>
-		<!--服务中心-->
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
-		</dependency>
-		<!--配置中心客户端-->
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-config</artifactId>
-		</dependency>
-		<!--web 模块-->
+
+		<!-- SpringBoot Web容器 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-			<exclusions>
-				<!--排除tomcat依赖-->
-				<exclusion>
-					<artifactId>spring-boot-starter-tomcat</artifactId>
-					<groupId>org.springframework.boot</groupId>
-				</exclusion>
-			</exclusions>
 		</dependency>
-		<!--undertow容器-->
+
+		<!-- SpringBoot 拦截器 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-undertow</artifactId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>
+
+
+		<!--hutool-->
+		<dependency>
+			<groupId>cn.hutool</groupId>
+			<artifactId>hutool-all</artifactId>
+			<version>${hutool.version}</version>
+		</dependency>
+
+		<!--数据库-->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+		<!--mybatis plus-->
+		<dependency>
+			<groupId>com.baomidou</groupId>
+			<artifactId>mybatis-plus-boot-starter</artifactId>
+			<version>${mybatis-plus.version}</version>
+		</dependency>
+		<!--阿里数据库连接池 -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid-spring-boot-starter</artifactId>
 		</dependency>
 
 		<dependency>
@@ -54,6 +64,8 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+
 	</dependencies>
 
 	<build>
