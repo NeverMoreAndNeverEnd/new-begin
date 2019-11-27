@@ -30,4 +30,8 @@ public class User {
     @TableField(fill = FieldFill.INSERT)
     private Integer version;
 
+    @TableField(fill = FieldFill.INSERT)
+    @TableLogic
+    private Integer deleted;//0表示未删除,1表示已经删除
+
 }
