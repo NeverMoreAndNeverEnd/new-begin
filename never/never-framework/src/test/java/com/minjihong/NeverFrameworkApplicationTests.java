@@ -26,4 +26,15 @@ class NeverFrameworkApplicationTests {
 
     }
 
+    @Test
+    public void testAdd() {
+        User user = new User();
+        user.setName("axx");
+        user.setAge(23);
+        user.setEmail("axx@qq.com");
+        int insert = userMapper.insert(user);
+        System.out.println(insert);
+
+    }
+
 }
