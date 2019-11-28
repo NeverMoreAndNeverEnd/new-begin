@@ -114,6 +114,9 @@
 	<modules>
 		<module>never-eureka</module>
 		<module>never-framework</module>
+		<module>never-microservice-edu</module>
+		<module>never-common</module>
+
 	</modules>
 
 </project>
