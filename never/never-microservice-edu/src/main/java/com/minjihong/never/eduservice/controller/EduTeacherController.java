@@ -22,7 +22,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/eduservice/teacher")
-@CrossOrigin(origins = "*",maxAge = 3600)
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class EduTeacherController {
 
     @Autowired
@@ -122,6 +122,7 @@ public class EduTeacherController {
 
     /**
      * 根据id更新教师信息
+     *
      * @param id
      * @param eduTeacher
      * @return
@@ -136,6 +137,17 @@ public class EduTeacherController {
         } else {
             return R.error();
         }
+    }
+
+
+    @PostMapping("login")
+    public R login() {
+        return R.ok().data("token", "admin");
+    }
+
+    @GetMapping("info")
+    public R info() {
+        return R.ok().data("roles", "[admin]").data("name", "admin").data("avatar", "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif");
     }
 
 
