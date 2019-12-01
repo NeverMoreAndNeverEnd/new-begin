@@ -16,4 +16,6 @@ import com.minjihong.never.eduservice.entity.query.QueryTeacher;
 public interface EduTeacherService extends IService<EduTeacher> {
 
     void pageListCondition(Page<EduTeacher> teacherPage, QueryTeacher queryTeacher);
+
+    boolean deleteTeacherById(String id);
 }

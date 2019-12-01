@@ -49,4 +49,10 @@ public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, EduTeac
         }
         baseMapper.selectPage(teacherPage, wrapper);
     }
+
+    @Override
+    public boolean deleteTeacherById(String id) {
+        int i = baseMapper.deleteById(id);
+        return  i >0 ;
+    }
 }
