@@ -2,6 +2,7 @@ package com.minjihong;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.minjihong.never.admin.mapper.UserMapper;
+import com.minjihong.never.admin.oss.AliyunOss;
 import com.minjihong.never.admin.pojo.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,15 @@ class NeverFrameworkApplicationTests {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private AliyunOss aliyunOss;
+
+    @Test
+    public void testOss() {
+        aliyunOss.quickStart();
+
+    }
 
     @Test
     public void testSelect() {

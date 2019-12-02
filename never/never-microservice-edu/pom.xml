@@ -44,6 +44,17 @@
             <version>3.2.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.aliyun.oss</groupId>
+            <artifactId>aliyun-sdk-oss</artifactId>
+            <version>3.8.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+        </dependency>
+
 
         <!-- velocity 模板引擎, Mybatis Plus 代码生成器需要 -->
         <dependency>
