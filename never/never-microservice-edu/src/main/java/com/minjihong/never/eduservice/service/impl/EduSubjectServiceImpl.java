@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.minjihong.never.common.constants.ResultCode;
 import com.minjihong.never.eduservice.entity.EduSubject;
+import com.minjihong.never.eduservice.entity.vo.SubjectNestedVo;
+import com.minjihong.never.eduservice.entity.vo.SubjectVo;
 import com.minjihong.never.eduservice.exception.EduException;
 import com.minjihong.never.eduservice.mapper.EduSubjectMapper;
 import com.minjihong.never.eduservice.service.EduSubjectService;
@@ -12,6 +14,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -53,7 +56,7 @@ public class EduSubjectServiceImpl extends ServiceImpl<EduSubjectMapper, EduSubj
                 if (row == null) {
                     String str = "表格数据为空,请输入数据";
                     message.add(str);
-                    return message;
+                    continue;
                 }
                 //行不为空,取第一列
                 Cell cellOne = row.getCell(0);
@@ -75,9 +78,9 @@ public class EduSubjectServiceImpl extends ServiceImpl<EduSubjectMapper, EduSubj
                     eduSubject.setParentId("0");
                     eduSubject.setSort(0);
                     baseMapper.insert(eduSubject);
-                    id_parent = eduSubject.getParentId();
+                    id_parent = eduSubject.getId();
                 } else {
-                    id_parent = existOneSubject.getParentId();
+                    id_parent = existOneSubject.getId();
                 }
 
                 //行不为空,取第二列
@@ -106,6 +109,78 @@ public class EduSubjectServiceImpl extends ServiceImpl<EduSubjectMapper, EduSubj
         return message;
 
 
+    }
+
+    @Override
+    public List<SubjectNestedVo> nestedList() {
+        List<SubjectNestedVo> subjectNestedVoList = new ArrayList<>();
+        //获取一级分类
+        QueryWrapper<EduSubject> wrapper = new QueryWrapper<>();
+        wrapper.eq("parent_id", "0");
+        wrapper.orderByDesc("sort", "id");
+        List<EduSubject> eduOneSubjects = baseMapper.selectList(wrapper);
+        //获取二级分类
+        QueryWrapper<EduSubject> wrapper2 = new QueryWrapper<>();
+        wrapper.ne("parent_id", "0");
+        wrapper.orderByDesc("sort", "id");
+        List<EduSubject> eduTwoSubjects = baseMapper.selectList(wrapper2);
+        int size1 = eduOneSubjects.size();
+        for (int i = 0; i < size1; i++) {
+            //填充一级分类vo
+            EduSubject eduSubject = eduOneSubjects.get(i);
+            SubjectNestedVo subjectNestedVo = new SubjectNestedVo();
+//            subjectNestedVo.setId(eduSubject.getId());
+//            subjectNestedVo.setTitle(eduSubject.getTitle());
+            BeanUtils.copyProperties(eduSubject, subjectNestedVo);
+            subjectNestedVoList.add(subjectNestedVo);
+            //填充二级分类vo
+            List<SubjectVo> subjectVos = new ArrayList<>();
+            int size2 = eduTwoSubjects.size();
+            for (int j = 0; j < size2; j++) {
+                EduSubject subjectTwo = eduTwoSubjects.get(j);
+                if (subjectTwo.getParentId().equals(eduSubject.getId())) {
+                    SubjectVo subjectVo = new SubjectVo();
+                    BeanUtils.copyProperties(subjectTwo, subjectVo);
+                    subjectVos.add(subjectVo);
+                }
+            }
+            subjectNestedVo.setChildren(subjectVos);
+        }
+        return subjectNestedVoList;
+    }
+
+    @Override
+    public boolean deleteSubjectById(String id) {
+        QueryWrapper<EduSubject> wrapper = new QueryWrapper<>();
+        wrapper.eq("parent_id", id);
+        Integer integer = baseMapper.selectCount(wrapper);
+        if (integer > 0) {
+            return false;
+        } else {
+            int i = baseMapper.deleteById(id);
+            return i > 0;
+        }
+    }
+
+    @Override
+    public boolean addOneLevel(EduSubject eduSubject) {
+        EduSubject subject = this.existOneSubject(eduSubject.getTitle());
+        if (subject == null) {
+            eduSubject.setParentId("0");
+            int insert = baseMapper.insert(eduSubject);
+            return insert > 0;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean addTwoLevel(EduSubject eduSubject) {
+        EduSubject subject = this.existTwoSubject(eduSubject.getTitle(), eduSubject.getParentId());
+        if (subject == null) {
+            int insert = baseMapper.insert(eduSubject);
+            return insert > 0;
+        }
+        return false;
     }
 
 
