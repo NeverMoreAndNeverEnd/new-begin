@@ -21,7 +21,7 @@
             v-if="node.level == 1"
             type="text"
             size="mini"
-            @click="() => append(data)">添加二级分类</el-button>
+            @click="() => {dialogFormVisible=true;subject.parentId=data.id}">添加二级分类</el-button>
           <el-button
             v-if="node.level == 2 || node.level == 1"
             type="text"
@@ -39,7 +39,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="appendLevelOne()">确 定</el-button>
+        <el-button type="primary" @click="appendData()">确 定</el-button>
       </div>
     </el-dialog>
 
@@ -127,6 +127,8 @@ export default {
           })
           this.dialogFormVisible = false
           this.fetchNodeList()
+          this.subject.title = ''// 重置类别标题
+          this.subject.parentId = '' // 重置表单parentId
         })
         .catch(reason => {
           this.$message({
@@ -134,6 +136,32 @@ export default {
             message: '添加分类失败!'
           })
         })
+    },
+    appendLevelTwo() {
+      subject.addSubjectTwoLevel(this.subject)
+        .then(response => {
+          this.$message({
+            type: 'success',
+            message: '添加分类成功!'
+          })
+          this.dialogFormVisible = false
+          this.fetchNodeList()
+          this.subject.title = ''// 重置类别标题
+          this.subject.parentId = '' // 重置表单parentId
+        })
+        .catch(reason => {
+          this.$message({
+            type: 'error',
+            message: '添加分类失败!'
+          })
+        })
+    },
+    appendData() {
+      if (!this.subject.parentId) {
+        this.appendLevelOne()
+      } else {
+        this.appendLevelTwo()
+      }
     }
   }
 

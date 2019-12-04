@@ -42,5 +42,12 @@ export default {
       method: 'put',
       data: teacher
     })
+  },
+  // 获取所有讲师
+  getAllTeacher() {
+    return request({
+      url: `${apiurl}/listAll`,
+      method: 'get'
+    })
   }
 }
