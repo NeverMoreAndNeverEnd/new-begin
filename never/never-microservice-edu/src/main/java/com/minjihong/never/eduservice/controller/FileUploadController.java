@@ -19,7 +19,7 @@ public class FileUploadController {
     //上传讲师头像方法
     @PostMapping("upload")
     public R uploadTeacherImg(@RequestParam("file") MultipartFile file,
-                              @RequestParam("host") String host) {
+                              @RequestParam(value = "host", required = false) String host) {
         if (StringUtils.isNotEmpty(host)) {
             ConstantPropertiesUtil.FILE_HOST = host;
         }

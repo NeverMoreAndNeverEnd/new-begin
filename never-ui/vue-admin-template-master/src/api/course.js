@@ -10,5 +10,28 @@ export default {
       method: 'post',
       data: courseInfo
     })
+  },
+  // 根据id查询
+  getCourseInfoById(id) {
+    return request({
+      url: `${apiurl}/getCourseInfo/${id}`,
+      method: 'get'
+    })
+  },
+  // 根据id修改
+  updateCourseInfoById(courseInfo) {
+    return request({
+      url: `${apiurl}/updateCourseInfo/${courseInfo.id}`,
+      method: 'put',
+      data: courseInfo
+    })
+  },
+  // 分页条件查询的方法
+  getCoursePageList(page, limit, searchObj) {
+    return request({
+      url: `${apiurl}/pageList/${page}/${limit}`,
+      method: 'post',
+      data: searchObj
+    })
   }
 }

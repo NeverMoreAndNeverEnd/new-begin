@@ -64,8 +64,7 @@
           :before-upload="beforeAvatarUpload"
           :action="BASE_API+'/eduservice/oss/upload?host=cover'"
           class="avatar-uploader">
-          <img v-if="courseInfo.cover" :src="courseInfo.cover">
-          <i v-else class="el-icon-plus avatar-uploader-icon"/>
+          <img :src="courseInfo.cover" >
         </el-upload>
       </el-form-item>
 
@@ -92,8 +91,9 @@ const defaultForm = {
   teacherId: '',
   lessonNum: 0,
   description: '',
-  cover: '',
-  price: 0
+  cover: '/static/11.jpg',
+  price: 0,
+  subjectParentId: ''
 }
 
 export default {
@@ -122,14 +122,15 @@ export default {
     init() {
       if (this.$route.params && this.$route.params.id) {
         const id = this.$route.params.id
-        console.log(id)
+        // console.log(id)
+        this.getCourseId(id)
       } else {
         this.courseInfo = { ...defaultForm }
+        // 初始化分类列表
+        this.initSubjectList()
+        // 初始化教师列表
+        this.initTeacherList()
       }
-      // 初始化分类列表
-      this.initSubjectList()
-      // 初始化教师列表
-      this.initTeacherList()
     },
 
     next() {
@@ -161,7 +162,24 @@ export default {
     },
 
     updateData() {
-      this.$router.push({ path: '/course/chapter/1' })
+      this.saveBtnDisabled = true
+      course.updateCourseInfoById(this.courseInfo)
+        .then(response => {
+          this.$message({
+            type: 'success',
+            message: '修改成功!'
+          })
+          return response
+        })
+        .then(response => {
+          this.$router.push({ path: '/course/chapter/' + response.data.courseId })
+        })
+        .catch(reason => {
+          this.$message({
+            type: 'error',
+            message: '修改失败!'
+          })
+        })
     },
 
     initSubjectList() {
@@ -199,6 +217,29 @@ export default {
         this.$message.error('上传头像图片大小不能超过 2MB!')
       }
       return isJPG && isLt2M
+    },
+
+    getCourseId(id) {
+      course.getCourseInfoById(id)
+        .then(response => {
+          this.courseInfo = response.data.item
+          // 查询所有一级分类
+          subject.getNestedTreeList().then(response => {
+            this.subjectNestedList = response.data.items
+            // 遍历一级分类
+            for (let i = 0; i < this.subjectNestedList.length; i++) {
+              if (this.subjectNestedList[i].id === this.courseInfo.subjectParentId) {
+                this.subSubjectList = this.subjectNestedList[i].children
+              }
+            }
+          })
+          this.initTeacherList()
+        }).catch(response => {
+          this.$message({
+            type: 'error',
+            message: response.message
+          })
+        })
     }
 
   }
