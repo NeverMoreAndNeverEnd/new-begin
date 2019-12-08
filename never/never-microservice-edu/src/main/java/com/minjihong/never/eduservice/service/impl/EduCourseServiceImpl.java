@@ -7,6 +7,7 @@ import com.minjihong.never.eduservice.entity.EduCourse;
 import com.minjihong.never.eduservice.entity.EduCourseDescription;
 import com.minjihong.never.eduservice.entity.form.CourseInfoForm;
 import com.minjihong.never.eduservice.entity.query.QueryCourse;
+import com.minjihong.never.eduservice.entity.vo.CoursePublishVo;
 import com.minjihong.never.eduservice.exception.EduException;
 import com.minjihong.never.eduservice.mapper.EduCourseMapper;
 import com.minjihong.never.eduservice.service.EduChapterService;
@@ -139,8 +140,25 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         eduVideoService.removeByCourseId(id);
         //删除chapter
         eduChapterService.removeByCourseId(id);
+        //删除课程描述
+        eduCourseDescriptionService.removeByCourseId(id);
 
         boolean b = this.removeById(id);
+        return b;
+    }
+
+    @Override
+    public CoursePublishVo getCoursePublishVoById(String id) {
+
+        return baseMapper.selectCoursePublishVoById(id);
+    }
+
+    @Override
+    public boolean publishCourseById(String id) {
+        EduCourse eduCourse = new EduCourse();
+        eduCourse.setStatus(EduCourse.COURSE_NORMAL);
+        eduCourse.setId(id);
+        boolean b = this.updateById(eduCourse);
         return b;
     }
 }

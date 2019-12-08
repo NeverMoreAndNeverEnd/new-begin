@@ -5,6 +5,7 @@ import com.minjihong.never.eduservice.entity.EduCourse;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.minjihong.never.eduservice.entity.form.CourseInfoForm;
 import com.minjihong.never.eduservice.entity.query.QueryCourse;
+import com.minjihong.never.eduservice.entity.vo.CoursePublishVo;
 
 /**
  * <p>
@@ -25,4 +26,8 @@ public interface EduCourseService extends IService<EduCourse> {
     void pageQuery(Page<EduCourse> coursePage, QueryCourse queryCourse);
 
     boolean removeCourseById(String id);
+
+    CoursePublishVo getCoursePublishVoById(String id);
+
+    boolean publishCourseById(String id);
 }

@@ -6,6 +6,7 @@ import com.minjihong.never.common.vo.R;
 import com.minjihong.never.eduservice.entity.EduCourse;
 import com.minjihong.never.eduservice.entity.form.CourseInfoForm;
 import com.minjihong.never.eduservice.entity.query.QueryCourse;
+import com.minjihong.never.eduservice.entity.vo.CoursePublishVo;
 import com.minjihong.never.eduservice.service.EduCourseService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,9 +86,40 @@ public class EduCourseController {
         return R.ok().data("total", total).data("rows", records);
     }
 
+    /**
+     * 根据courseId删除
+     *
+     * @param id
+     * @return
+     */
     @DeleteMapping("delete/{id}")
     public R deleteById(@PathVariable("id") String id) {
         boolean flag = eduCourseService.removeCourseById(id);
+        return flag ? R.ok() : R.error();
+    }
+
+
+    /**
+     * 根据id获取课程发布信息
+     *
+     * @param id
+     * @return
+     */
+    @GetMapping("publishCourseInfo/{id}")
+    public R getCoursePublishVoById(@PathVariable("id") String id) {
+        CoursePublishVo coursePublishVo = eduCourseService.getCoursePublishVoById(id);
+        return R.ok().data("item", coursePublishVo);
+    }
+
+    /**
+     * 根据id发布课程
+     *
+     * @param id
+     * @return
+     */
+    @PutMapping("publishCourse/{id}")
+    public R publishCourseById(@PathVariable("id") String id) {
+        boolean flag = eduCourseService.publishCourseById(id);
         return flag ? R.ok() : R.error();
     }
 

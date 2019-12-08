@@ -2,6 +2,7 @@ package com.minjihong.never.eduservice.service;
 
 import com.minjihong.never.eduservice.entity.EduVideo;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.minjihong.never.eduservice.entity.form.VideoInfoForm;
 
 /**
  * <p>
@@ -16,4 +17,12 @@ public interface EduVideoService extends IService<EduVideo> {
     boolean removeByCourseId(String courseId);
 
     boolean getCountByChapterId(String chapterId);
+
+    boolean saveVideoInfo(VideoInfoForm videoInfoForm);
+
+    VideoInfoForm getVideoById(String id);
+
+    boolean updateVideoById(VideoInfoForm videoInfoForm);
+
+    boolean deleteById(String id);
 }

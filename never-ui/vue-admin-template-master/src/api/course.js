@@ -40,5 +40,19 @@ export default {
       url: `${apiurl}/delete/${id}`,
       method: 'delete'
     })
+  },
+  // 根据id查询发布课程信息
+  getCoursePublishVoById(id) {
+    return request({
+      url: `${apiurl}/publishCourseInfo/${id}`,
+      method: 'get'
+    })
+  },
+  // 根据id发布课程
+  publishCourseById(id) {
+    return request({
+      url: `${apiurl}/publishCourse/${id}`,
+      method: 'put'
+    })
   }
 }

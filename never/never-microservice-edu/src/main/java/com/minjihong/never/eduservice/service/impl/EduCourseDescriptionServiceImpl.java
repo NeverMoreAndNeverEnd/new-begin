@@ -1,5 +1,6 @@
 package com.minjihong.never.eduservice.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.minjihong.never.eduservice.entity.EduCourseDescription;
 import com.minjihong.never.eduservice.mapper.EduCourseDescriptionMapper;
 import com.minjihong.never.eduservice.service.EduCourseDescriptionService;
@@ -17,4 +18,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class EduCourseDescriptionServiceImpl extends ServiceImpl<EduCourseDescriptionMapper, EduCourseDescription> implements EduCourseDescriptionService {
 
+    @Override
+    public boolean removeByCourseId(String courseId) {
+        QueryWrapper<EduCourseDescription> wrapper = new QueryWrapper<>();
+        wrapper.eq("course_id", courseId);
+        int delete = baseMapper.delete(wrapper);
+        return delete > 0;
+    }
 }
