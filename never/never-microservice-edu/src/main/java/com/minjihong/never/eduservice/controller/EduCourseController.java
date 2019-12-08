@@ -67,14 +67,28 @@ public class EduCourseController {
     }
 
 
-    @PostMapping ("pageList/{page}/{limit}")
+    /**
+     * 分页条件查询课程信息
+     *
+     * @param page
+     * @param limit
+     * @param queryCourse
+     * @return
+     */
+    @PostMapping("pageList/{page}/{limit}")
     public R pageQuery(@PathVariable("page") Long page, @PathVariable("limit") Long limit,
                        @RequestBody(required = false) QueryCourse queryCourse) {
         Page<EduCourse> coursePage = new Page<>(page, limit);
-        eduCourseService.pageQuery(coursePage,queryCourse);
+        eduCourseService.pageQuery(coursePage, queryCourse);
         List<EduCourse> records = coursePage.getRecords();
         long total = coursePage.getTotal();
-        return R.ok().data("total",total).data("rows",records);
+        return R.ok().data("total", total).data("rows", records);
+    }
+
+    @DeleteMapping("delete/{id}")
+    public R deleteById(@PathVariable("id") String id) {
+        boolean flag = eduCourseService.removeCourseById(id);
+        return flag ? R.ok() : R.error();
     }
 
 

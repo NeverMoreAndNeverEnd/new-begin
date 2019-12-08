@@ -115,7 +115,10 @@ export default {
           // console.log(this.total)
         })
         .catch(response => {
-
+          this.$message({
+            type: 'error',
+            message: response.message
+          })
         })
     },
     // 重置查询条件

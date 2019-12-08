@@ -33,5 +33,12 @@ export default {
       method: 'post',
       data: searchObj
     })
+  },
+  // 根据id删除
+  deleteCourseInfoById(id) {
+    return request({
+      url: `${apiurl}/delete/${id}`,
+      method: 'delete'
+    })
   }
 }

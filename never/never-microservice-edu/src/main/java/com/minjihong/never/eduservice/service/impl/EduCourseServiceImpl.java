@@ -9,9 +9,11 @@ import com.minjihong.never.eduservice.entity.form.CourseInfoForm;
 import com.minjihong.never.eduservice.entity.query.QueryCourse;
 import com.minjihong.never.eduservice.exception.EduException;
 import com.minjihong.never.eduservice.mapper.EduCourseMapper;
+import com.minjihong.never.eduservice.service.EduChapterService;
 import com.minjihong.never.eduservice.service.EduCourseDescriptionService;
 import com.minjihong.never.eduservice.service.EduCourseService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.minjihong.never.eduservice.service.EduVideoService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,12 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
 
     @Autowired
     private EduCourseDescriptionService eduCourseDescriptionService;
+
+    @Autowired
+    private EduChapterService eduChapterService;
+
+    @Autowired
+    private EduVideoService eduVideoService;
 
     @Override
     public String insertCourseInfo(CourseInfoForm courseInfoForm) {
@@ -122,5 +130,17 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
 
         baseMapper.selectPage(coursePage, wrapper);
 
+    }
+
+    @Override
+    public boolean removeCourseById(String id) {
+
+        //删除video
+        eduVideoService.removeByCourseId(id);
+        //删除chapter
+        eduChapterService.removeByCourseId(id);
+
+        boolean b = this.removeById(id);
+        return b;
     }
 }

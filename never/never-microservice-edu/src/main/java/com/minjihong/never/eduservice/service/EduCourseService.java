@@ -23,4 +23,6 @@ public interface EduCourseService extends IService<EduCourse> {
     boolean updateCourseInfoById(CourseInfoForm courseInfoForm);
 
     void pageQuery(Page<EduCourse> coursePage, QueryCourse queryCourse);
+
+    boolean removeCourseById(String id);
 }
