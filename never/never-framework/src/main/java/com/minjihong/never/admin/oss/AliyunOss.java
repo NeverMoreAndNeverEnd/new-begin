@@ -16,9 +16,9 @@ public class AliyunOss {
         // Endpoint以杭州为例，其它Region请按实际情况填写。
         String endpoint = "http://oss-cn-shanghai.aliyuncs.com";
         // 阿里云主账号AccessKey拥有所有API的访问权限，风险很高。强烈建议您创建并使用RAM账号进行API访问或日常运维，请登录 https://ram.console.aliyun.com 创建RAM账号。
-        String accessKeyId = "LTAIzm0wduyxbxxq";
-        String accessKeySecret = "tYiGJDT7feGekmVwa2nTTqLya1I7tN";
-        String bucketName = "never-edu-test";
+        String accessKeyId = "";
+        String accessKeySecret = "";
+        String bucketName = "";
 
         // 创建OSSClient实例。
         OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
@@ -34,15 +34,15 @@ public class AliyunOss {
         // Endpoint以杭州为例，其它Region请按实际情况填写。
         String endpoint = "http://oss-cn-shanghai.aliyuncs.com";
         // 云账号AccessKey有所有API访问权限，建议遵循阿里云安全最佳实践，创建并使用RAM子账号进行API访问或日常运维，请登录 https://ram.console.aliyun.com 创建。
-        String accessKeyId = "LTAIzm0wduyxbxxq";
-        String accessKeySecret = "tYiGJDT7feGekmVwa2nTTqLya1I7tN";
+        String accessKeyId = "";
+        String accessKeySecret = "";
 
         // 创建OSSClient实例。
         OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
 
         // 上传文件流。
         InputStream inputStream = new FileInputStream("<yourlocalFile>");
-        ossClient.putObject("never-edu-test", "<yourObjectName>", inputStream);
+        ossClient.putObject("", "<yourObjectName>", inputStream);
 
         // 关闭OSSClient。
         ossClient.shutdown();
