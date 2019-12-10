@@ -147,6 +147,7 @@
 		<module>never-eureka</module>
 		<module>never-framework</module>
 		<module>never-microservice-edu</module>
+		<module>never-microservice-video</module>
 		<module>never-common</module>
 
 	</modules>
