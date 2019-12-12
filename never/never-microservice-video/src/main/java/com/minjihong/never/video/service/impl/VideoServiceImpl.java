@@ -3,8 +3,12 @@ package com.minjihong.never.video.service.impl;
 import com.aliyun.vod.upload.impl.UploadVideoImpl;
 import com.aliyun.vod.upload.req.UploadStreamRequest;
 import com.aliyun.vod.upload.resp.UploadStreamResponse;
+import com.aliyuncs.DefaultAcsClient;
+import com.aliyuncs.vod.model.v20170321.DeleteVideoRequest;
+import com.aliyuncs.vod.model.v20170321.DeleteVideoResponse;
 import com.minjihong.never.video.exception.VideoException;
 import com.minjihong.never.video.service.VideoService;
+import com.minjihong.never.video.util.AliyunVideoSDKUtils;
 import com.minjihong.never.video.util.ConstantPropertiesUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -24,7 +28,10 @@ public class VideoServiceImpl implements VideoService {
         try {
             InputStream inputStream = file.getInputStream();
             String originalFilename = file.getOriginalFilename();
-            String title = originalFilename.substring(0, originalFilename.lastIndexOf("."));
+            String title = null;
+            if (StringUtils.isNotEmpty(originalFilename)) {
+                title = originalFilename.substring(0, originalFilename.lastIndexOf("."));
+            }
             UploadStreamRequest request = new UploadStreamRequest(
                     ConstantPropertiesUtil.ACCESS_KEY_ID,
                     ConstantPropertiesUtil.ACCESS_KEY_SECRET,
@@ -43,8 +50,29 @@ public class VideoServiceImpl implements VideoService {
             }
             return videoId;
         } catch (IOException e) {
+            e.printStackTrace();
             throw new VideoException(20001, "video视频 服务上传失败");
         }
+
+    }
+
+    @Override
+    public void removeVideo(String videoId) {
+
+        try {
+            DefaultAcsClient client = AliyunVideoSDKUtils.initVodClient(
+                    ConstantPropertiesUtil.ACCESS_KEY_ID,
+                    ConstantPropertiesUtil.ACCESS_KEY_SECRET);
+            DeleteVideoRequest request = new DeleteVideoRequest();
+            request.setVideoIds(videoId);
+            DeleteVideoResponse response = client.getAcsResponse(request);
+            System.out.print("RequestId = " + response.getRequestId() + "\n");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new VideoException(20001, "视频删除失败");
+        }
+
 
     }
 }

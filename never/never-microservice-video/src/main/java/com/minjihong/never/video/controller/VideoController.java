@@ -25,5 +25,11 @@ public class VideoController {
         return R.ok().data("videoId", videoId).message("视频上传成功!");
     }
 
+    @DeleteMapping("delete/{videoId}")
+    public R deleteVideo(@PathVariable("videoId") String videoId) {
+        videoService.removeVideo(videoId);
+        return R.ok();
+    }
+
 
 }
