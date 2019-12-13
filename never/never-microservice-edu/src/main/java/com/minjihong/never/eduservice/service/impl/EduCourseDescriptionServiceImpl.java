@@ -21,7 +21,7 @@ public class EduCourseDescriptionServiceImpl extends ServiceImpl<EduCourseDescri
     @Override
     public boolean removeByCourseId(String courseId) {
         QueryWrapper<EduCourseDescription> wrapper = new QueryWrapper<>();
-        wrapper.eq("course_id", courseId);
+        wrapper.eq("id", courseId);
         int delete = baseMapper.delete(wrapper);
         return delete > 0;
     }

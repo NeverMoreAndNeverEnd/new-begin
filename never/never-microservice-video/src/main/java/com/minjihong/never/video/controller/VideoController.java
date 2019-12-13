@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin
 @RequestMapping("video")
@@ -28,6 +30,12 @@ public class VideoController {
     @DeleteMapping("delete/{videoId}")
     public R deleteVideo(@PathVariable("videoId") String videoId) {
         videoService.removeVideo(videoId);
+        return R.ok();
+    }
+
+    @DeleteMapping("delete/videoList")
+    public R deleteVideoList(@RequestParam("videoList") List<String> videoList) {
+        videoService.removeVideoList(videoList);
         return R.ok();
     }
 
