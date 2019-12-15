@@ -28,8 +28,8 @@ public class Swagger2Config {
     private ApiInfo webApiInfo(){
 
         return new ApiInfoBuilder()
-                .title("网站-课程中心API文档")
-                .description("本文档描述了课程中心微服务接口定义")
+                .title("网站-用户中心API文档")
+                .description("本文档描述了用户中心微服务接口定义")
                 .version("1.0")
                 .contact(new Contact("jihong.min", "http://never.com", "943165484@qq.com"))
                 .build();
