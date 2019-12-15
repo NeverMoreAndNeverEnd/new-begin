@@ -148,6 +148,8 @@
 		<module>never-framework</module>
 		<module>never-microservice-edu</module>
 		<module>never-microservice-video</module>
+		<module>never-microservice-ucenter</module>
+		<module>never-microservice-statistics</module>
 		<module>never-common</module>
 
 	</modules>
