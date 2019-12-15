@@ -4,11 +4,7 @@ package com.minjihong.never.statistics.controller;
 import com.minjihong.never.common.vo.R;
 import com.minjihong.never.statistics.service.DailyService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -20,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/statistics/daily")
+@CrossOrigin
 public class DailyController {
 
     private DailyService dailyService;
