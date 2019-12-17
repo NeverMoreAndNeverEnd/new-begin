@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.minjihong.never.eduservice.entity.EduTeacher;
 import com.minjihong.never.eduservice.entity.query.QueryTeacher;
 
+import java.util.Map;
+
 /**
  * <p>
  * 讲师 服务类
@@ -18,4 +20,6 @@ public interface EduTeacherService extends IService<EduTeacher> {
     void pageListCondition(Page<EduTeacher> teacherPage, QueryTeacher queryTeacher);
 
     boolean deleteTeacherById(String id);
+
+    Map<String, Object> getFrontTeacherList(Page<EduTeacher> teacherPage);
 }

@@ -10,6 +10,9 @@ import com.minjihong.never.eduservice.service.EduTeacherService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * <p>
  * 讲师 服务实现类
@@ -53,6 +56,25 @@ public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, EduTeac
     @Override
     public boolean deleteTeacherById(String id) {
         int i = baseMapper.deleteById(id);
-        return  i >0 ;
+        return i > 0;
+    }
+
+    @Override
+    public Map<String, Object> getFrontTeacherList(Page<EduTeacher> teacherPage) {
+
+        QueryWrapper<EduTeacher> wrapper = new QueryWrapper<>();
+        wrapper.orderByAsc("sort");
+        baseMapper.selectPage(teacherPage, wrapper);
+
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("items", teacherPage.getRecords());
+        map.put("current", teacherPage.getCurrent());
+        map.put("pages", teacherPage.getPages());
+        map.put("size", teacherPage.getSize());
+        map.put("total", teacherPage.getTotal());
+        map.put("hasNext", teacherPage.hasNext());
+        map.put("hasPrevious", teacherPage.hasPrevious());
+
+        return map;
     }
 }

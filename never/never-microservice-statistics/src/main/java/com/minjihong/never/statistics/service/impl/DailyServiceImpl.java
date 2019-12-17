@@ -11,6 +11,11 @@ import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * <p>
  * 网站统计日数据 服务实现类
@@ -54,5 +59,42 @@ public class DailyServiceImpl extends ServiceImpl<DailyMapper, Daily> implements
         daily.setDateCalculated(day);
         baseMapper.insert(daily);
 
+    }
+
+    @Override
+    public Map<String, Object> getDataCount(String type, String begin, String end) {
+
+        QueryWrapper<Daily> wrapper = new QueryWrapper<>();
+        //wrapper.ge(),wrapper.le()
+        wrapper.between("date_calculated", begin, end);
+        wrapper.select("date_calculated", type);
+        List<Daily> dailyList = baseMapper.selectList(wrapper);
+
+        List<String> timeList = new ArrayList<>();
+        List<Integer> dataList = new ArrayList<>();
+        for (Daily daily : dailyList) {
+            String dateCalculated = daily.getDateCalculated();
+            timeList.add(dateCalculated);
+            switch (type) {
+                case "login_num":
+                    dataList.add(daily.getLoginNum());
+                    break;
+                case "register_num":
+                    dataList.add(daily.getRegisterNum());
+                    break;
+                case "video_view_num":
+                    dataList.add(daily.getVideoViewNum());
+                    break;
+                case "course_num":
+                    dataList.add(daily.getCourseNum());
+                    break;
+                default:
+                    break;
+            }
+        }
+        Map<String, Object> map = new HashMap<>();
+        map.put("timeList", timeList);
+        map.put("dataList", dataList);
+        return map;
     }
 }
