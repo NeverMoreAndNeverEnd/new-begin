@@ -1,6 +1,7 @@
 package com.minjihong.never.eduservice.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.minjihong.never.eduservice.entity.EduChapter;
 import com.minjihong.never.eduservice.entity.EduVideo;
 import com.minjihong.never.eduservice.entity.vo.ChapterVo;
@@ -8,7 +9,6 @@ import com.minjihong.never.eduservice.entity.vo.VideoVo;
 import com.minjihong.never.eduservice.exception.EduException;
 import com.minjihong.never.eduservice.mapper.EduChapterMapper;
 import com.minjihong.never.eduservice.service.EduChapterService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.minjihong.never.eduservice.service.EduVideoService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +28,12 @@ import java.util.List;
 @Service
 public class EduChapterServiceImpl extends ServiceImpl<EduChapterMapper, EduChapter> implements EduChapterService {
 
-    @Autowired
     private EduVideoService eduVideoService;
+
+    @Autowired
+    public EduChapterServiceImpl(EduVideoService eduVideoService) {
+        this.eduVideoService = eduVideoService;
+    }
 
     @Override
     public List<ChapterVo> nestedListByCourseId(String courseId) {

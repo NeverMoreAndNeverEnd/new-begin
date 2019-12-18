@@ -6,6 +6,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.minjihong.never.eduservice.entity.form.CourseInfoForm;
 import com.minjihong.never.eduservice.entity.query.QueryCourse;
 import com.minjihong.never.eduservice.entity.vo.CoursePublishVo;
+import com.minjihong.never.eduservice.entity.vo.CourseWebInfo;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -30,4 +34,10 @@ public interface EduCourseService extends IService<EduCourse> {
     CoursePublishVo getCoursePublishVoById(String id);
 
     boolean publishCourseById(String id);
+
+    List<EduCourse> getCourseListByTeacherId(String id);
+
+    Map<String, Object> getFrontTeacherList(Page<EduCourse> eduCoursePage);
+
+    CourseWebInfo selectInfoWebById(String id);
 }

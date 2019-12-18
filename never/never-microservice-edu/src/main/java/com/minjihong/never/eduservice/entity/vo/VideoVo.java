@@ -15,6 +15,8 @@ public class VideoVo implements Serializable {
 
     private boolean free;
 
+    private String videoSourceId;
+
     private String videoOriginalName;
 
 

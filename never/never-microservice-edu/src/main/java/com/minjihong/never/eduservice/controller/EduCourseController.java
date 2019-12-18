@@ -27,8 +27,12 @@ import java.util.List;
 @CrossOrigin
 public class EduCourseController {
 
-    @Autowired
     private EduCourseService eduCourseService;
+
+    @Autowired
+    public EduCourseController(EduCourseService eduCourseService) {
+        this.eduCourseService = eduCourseService;
+    }
 
     /**
      * 新增课程信息

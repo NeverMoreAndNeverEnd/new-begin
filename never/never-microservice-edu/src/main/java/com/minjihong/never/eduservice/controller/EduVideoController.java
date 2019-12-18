@@ -20,8 +20,12 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 public class EduVideoController {
 
-    @Autowired
     private EduVideoService eduVideoService;
+
+    @Autowired
+    public EduVideoController(EduVideoService eduVideoService) {
+        this.eduVideoService = eduVideoService;
+    }
 
     /**
      * 新增video

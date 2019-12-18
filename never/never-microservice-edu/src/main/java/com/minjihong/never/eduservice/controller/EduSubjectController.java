@@ -7,7 +7,6 @@ import com.minjihong.never.eduservice.entity.vo.SubjectNestedVo;
 import com.minjihong.never.eduservice.service.EduSubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -25,8 +24,12 @@ import java.util.List;
 @CrossOrigin
 public class EduSubjectController {
 
-    @Autowired
     private EduSubjectService subjectService;
+
+    @Autowired
+    public EduSubjectController(EduSubjectService subjectService) {
+        this.subjectService = subjectService;
+    }
 
     // 通过上传Excel文件获取文件内容
     @PostMapping("import")

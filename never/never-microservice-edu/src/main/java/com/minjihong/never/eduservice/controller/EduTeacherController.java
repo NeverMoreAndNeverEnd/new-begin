@@ -25,8 +25,12 @@ import java.util.List;
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class EduTeacherController {
 
-    @Autowired
     private EduTeacherService teacherService;
+
+    @Autowired
+    public EduTeacherController(EduTeacherService teacherService) {
+        this.teacherService = teacherService;
+    }
 
     /**
      * 查询所有老师

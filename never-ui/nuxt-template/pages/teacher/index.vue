@@ -91,7 +91,7 @@
 
   export default {
     asyncData({ params, error }) {
-      return teacher.getTeacherListPage(1,8)
+      return teacher.getPageList(1,8)
         .then(response => {
           console.log(response.data.data)
           return {data: response.data.data}
@@ -99,7 +99,7 @@
     },
     methods: {
       gotoPage(page){
-        teacher.getTeacherListPage(page, 8).then(response => {
+        teacher.getPageList(page, 8).then(response => {
           this.data = response.data.data
         })
       }

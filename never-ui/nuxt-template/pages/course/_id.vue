@@ -114,7 +114,7 @@
                                 <a :href="'/player/'+video.videoSourceId"
                                    :title="video.title"
                                    target="_blank">
-                                  <span class="fr">
+                                  <span  v-if="video.free === true" class="fr">
                                     <i class="free-icon vam mr10">免费试听</i>
                                   </span>
                                   <em class="lh-menu-i-2 icon16 mr5">&nbsp;</em>{{video.title}}

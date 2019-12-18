@@ -13,8 +13,12 @@ import org.springframework.web.multipart.MultipartFile;
 @CrossOrigin
 public class FileUploadController {
 
-    @Autowired
     private FileService fileService;
+
+    @Autowired
+    public FileUploadController(FileService fileService) {
+        this.fileService = fileService;
+    }
 
     //上传讲师头像方法
     @PostMapping("upload")

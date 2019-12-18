@@ -2,18 +2,19 @@ package com.minjihong.never.eduservice.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.minjihong.never.common.constants.PriceConstants;
 import com.minjihong.never.eduservice.entity.EduCourse;
 import com.minjihong.never.eduservice.entity.EduCourseDescription;
 import com.minjihong.never.eduservice.entity.form.CourseInfoForm;
 import com.minjihong.never.eduservice.entity.query.QueryCourse;
 import com.minjihong.never.eduservice.entity.vo.CoursePublishVo;
+import com.minjihong.never.eduservice.entity.vo.CourseWebInfo;
 import com.minjihong.never.eduservice.exception.EduException;
 import com.minjihong.never.eduservice.mapper.EduCourseMapper;
 import com.minjihong.never.eduservice.service.EduChapterService;
 import com.minjihong.never.eduservice.service.EduCourseDescriptionService;
 import com.minjihong.never.eduservice.service.EduCourseService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.minjihong.never.eduservice.service.EduVideoService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -22,6 +23,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -35,14 +39,19 @@ import java.math.BigDecimal;
 @Service
 public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse> implements EduCourseService {
 
-    @Autowired
+
     private EduCourseDescriptionService eduCourseDescriptionService;
 
-    @Autowired
     private EduChapterService eduChapterService;
 
-    @Autowired
     private EduVideoService eduVideoService;
+
+    @Autowired
+    public EduCourseServiceImpl(EduCourseDescriptionService eduCourseDescriptionService, EduChapterService eduChapterService, EduVideoService eduVideoService) {
+        this.eduCourseDescriptionService = eduCourseDescriptionService;
+        this.eduChapterService = eduChapterService;
+        this.eduVideoService = eduVideoService;
+    }
 
     @Override
     public String insertCourseInfo(CourseInfoForm courseInfoForm) {
@@ -160,5 +169,38 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         eduCourse.setId(id);
         boolean b = this.updateById(eduCourse);
         return b;
+    }
+
+    @Override
+    public List<EduCourse> getCourseListByTeacherId(String id) {
+        QueryWrapper<EduCourse> wrapper = new QueryWrapper<>();
+        wrapper.eq("teacher_id", id);
+        wrapper.orderByDesc("gmt_modified");
+        List<EduCourse> courses = baseMapper.selectList(wrapper);
+        return courses;
+    }
+
+    @Override
+    public Map<String, Object> getFrontTeacherList(Page<EduCourse> eduCoursePage) {
+        QueryWrapper<EduCourse> wrapper = new QueryWrapper<>();
+        wrapper.orderByDesc("gmt_modified");
+        baseMapper.selectPage(eduCoursePage, wrapper);
+
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("items", eduCoursePage.getRecords());
+        map.put("current", eduCoursePage.getCurrent());
+        map.put("pages", eduCoursePage.getPages());
+        map.put("size", eduCoursePage.getSize());
+        map.put("total", eduCoursePage.getTotal());
+        map.put("hasNext", eduCoursePage.hasNext());
+        map.put("hasPrevious", eduCoursePage.hasPrevious());
+
+        return map;
+    }
+
+    @Override
+    public CourseWebInfo selectInfoWebById(String id) {
+        CourseWebInfo courseWebInfo = baseMapper.getCourseWebInfoById(id);
+        return courseWebInfo;
     }
 }

@@ -3,6 +3,7 @@ package com.minjihong.never.eduservice.mapper;
 import com.minjihong.never.eduservice.entity.EduCourse;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.minjihong.never.eduservice.entity.vo.CoursePublishVo;
+import com.minjihong.never.eduservice.entity.vo.CourseWebInfo;
 
 /**
  * <p>
@@ -15,5 +16,7 @@ import com.minjihong.never.eduservice.entity.vo.CoursePublishVo;
 public interface EduCourseMapper extends BaseMapper<EduCourse> {
 
     CoursePublishVo selectCoursePublishVoById(String id);
+
+    CourseWebInfo getCourseWebInfoById(String id);
 
 }

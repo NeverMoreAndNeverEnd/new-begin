@@ -23,8 +23,12 @@ import java.util.List;
 @CrossOrigin
 public class EduChapterController {
 
-    @Autowired
     private EduChapterService eduChapterService;
+
+    @Autowired
+    public EduChapterController(EduChapterService eduChapterService) {
+        this.eduChapterService = eduChapterService;
+    }
 
     /**
      * 根据课程id查询章节和小结
