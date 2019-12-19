@@ -1,5 +1,6 @@
 package com.minjihong.never.ucenter.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.minjihong.never.ucenter.entity.Member;
 import com.minjihong.never.ucenter.mapper.MemberMapper;
@@ -22,5 +23,14 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
     public Integer countRegisterNum(String day) {
 
         return baseMapper.countRegisterNum(day);
+    }
+
+    @Override
+    public Member getByOpenid(String openid) {
+        QueryWrapper<Member> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("openid", openid);
+        Member member = baseMapper.selectOne(queryWrapper);
+        return member;
+
     }
 }
