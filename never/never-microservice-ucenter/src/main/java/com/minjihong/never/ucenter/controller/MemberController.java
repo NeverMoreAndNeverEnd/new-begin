@@ -2,7 +2,10 @@ package com.minjihong.never.ucenter.controller;
 
 
 import com.minjihong.never.common.vo.R;
+import com.minjihong.never.ucenter.entity.vo.LoginInfoVo;
 import com.minjihong.never.ucenter.service.MemberService;
+import com.minjihong.never.ucenter.util.JwtUtils;
+import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,6 +41,20 @@ public class MemberController {
         Integer num = memberService.countRegisterNum(day);
         return R.ok().data("countRegister", num);
     }
+
+    @PostMapping("info/{token}")
+    public R getInfoByToken(@PathVariable String token){
+        Claims claims = JwtUtils.checkJwt(token);
+        String nickname = (String)claims.get("nickname");
+        String avatar = (String)claims.get("avatar");
+        String id = (String)claims.get("id");
+        LoginInfoVo loginInfoVo = new LoginInfoVo();
+        loginInfoVo.setId(id);
+        loginInfoVo.setAvatar(avatar);
+        loginInfoVo.setNickname(nickname);
+        return R.ok().data("loginInfo", loginInfoVo);
+    }
+
 
 }
 

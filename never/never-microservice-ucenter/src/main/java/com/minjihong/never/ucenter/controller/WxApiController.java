@@ -5,6 +5,7 @@ import com.minjihong.never.ucenter.entity.Member;
 import com.minjihong.never.ucenter.service.MemberService;
 import com.minjihong.never.ucenter.util.ConstantPropertiesUtil;
 import com.minjihong.never.ucenter.util.HttpClientUtils;
+import com.minjihong.never.ucenter.util.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -145,9 +146,12 @@ public class WxApiController {
             member.setAvatar(headimgurl);
             memberService.save(member);
         }
-        //TODO 登录
-        return "redirect:http://localhost:3000";
-
+        // 生成jwt
+        String token = JwtUtils.genJsonWebToken(member);
+       //存入cookie
+       //CookieUtils.setCookie(request, response, "guli_jwt_token", token);
+       //因为端口号不同存在蛞蝓问题，cookie不能跨域，所以这里使用url重写
+        return "redirect:http://localhost:3000?token=" + token;
 
     }
 
